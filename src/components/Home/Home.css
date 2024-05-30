@@ -1,0 +1,56 @@
+.container{
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.podcast-home{
+    margin-top: 100px;
+}
+
+.podcast-home h1{
+    font-family: "Rubik", sans-serif;
+    font-weight: 700;
+    font-size: 48px;
+    color: #016677;
+}
+
+.podcast-home h2{
+    font-family: "Rubik", sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    color: #D78079;
+}
+
+.podcast-programs{
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.program{
+    cursor: pointer;
+    flex: 1;
+}
+
+.program img{
+    width: 300px;
+    height: 260px;
+}
+
+.program h2{
+    font-family: "Rubik", sans-serif;
+    font-weight: 700;
+    color: #D78079;
+    font-size: 24px;
+}
+
+.program p{
+    font-family: "Rubik", sans-serif;
+    font-weight: 600;
+    color: #016677;
+    padding: 0 30px;
+}
+
+

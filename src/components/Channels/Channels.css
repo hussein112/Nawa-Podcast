@@ -1,0 +1,59 @@
+.podcast-channels{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+
+.p-icon{
+    width: 150px;
+    height: 100px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin: 10px 20px;
+}
+
+@media(max-width: 562px){
+    .p-icon{
+        width: 80px;
+        height: 50px;
+    }
+}
+
+.minor{
+    justify-content: flex-end;
+}
+
+@media(max-width: 772px){
+    .minor{
+        justify-content: center;
+    }
+}
+
+.minor .p-icon{
+    width: 100px;
+    height: 50px;
+}
+
+.youtube{
+    background-image: url("../../assets/youtube.png");
+}
+
+.soundcloud{
+    background-image: url("../../assets/Soundcloud.png");
+}
+
+.podcast{
+    background-image: url("../../assets/podcast.png");
+}
+
+
+.google{
+    background-image: url("../../assets/google.png");
+}
+
+.castbox{
+    background-image: url("../../assets/castbox.png");
+}
