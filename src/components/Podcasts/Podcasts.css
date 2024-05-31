@@ -167,6 +167,28 @@ video::cue(b) {
     justify-content: center;
 }
 
+.podcast-single-container{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    z-index: 111;
+    background-color: #000000c7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.podcast-single-container .close{
+    color: white;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+}
+
 .podcast-single{
     height: 600px;
 }
@@ -198,6 +220,7 @@ video::cue(b) {
     align-items: center;
     justify-content: space-around;
     padding: 0 100px;
+    cursor: pointer;
 }
 
 @media(max-width: 992px){
@@ -295,6 +318,7 @@ video::cue(b) {
     align-items: center;
     position: relative;
     height: 500px;
+    width: 100%;
     justify-content: space-around;
 }
   

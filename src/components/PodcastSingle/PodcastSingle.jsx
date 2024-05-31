@@ -7,8 +7,7 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
 
-const PodcastSingle = () => {
-    const { id, media } = useParams();
+const PodcastSingle = ({media}) => {
     const [opacity, setOpacity] = useState(1);
     const [loading, setLoading] = useState(true);
     const podcastType = 'كيانــا';
@@ -31,7 +30,7 @@ const PodcastSingle = () => {
             <SkeletonLoader />
             : 
             <div className="podcast-single post-single post odd">
-                {media === 'audio' ? <img src={require("../../assets/1.jpeg")} alt="" className='bg' /> : <></>}
+                {media === 'audio' && <img src={require("../../assets/1.jpeg")} alt="" className='bg' />}
                 <div className="container" style={{opacity: opacity}}>
                     <h2>بودكاست {podcastType}</h2>
                     <a>بودكاست "أوزون" الحلقة السادسة والأخيرة - من مزيل العرق للإنترنت استعمالات يومية بتأثر عالمناخ</a>

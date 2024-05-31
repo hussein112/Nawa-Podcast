@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 import Audio from '../Audio/Audio';
 import Video from '../Video/Video';
+import { PopupContext } from '../../context/PopUpContext';
 
 const Podcast = ({ id, wpId, media }) => {
-    const navigate = useNavigate();
+    const { setShowPopUp } = useContext(PopupContext);
     const [opacity, setOpacity] = useState(1);
     const toggleContainer = () => {
         setOpacity(opacity === 0 ? 1 : 0);
@@ -20,11 +21,7 @@ const Podcast = ({ id, wpId, media }) => {
                 <path d="M11.2667 23.4222C13.1773 23.4196 15.0089 22.6594 16.36 21.3084C17.711 19.9574 18.4712 18.1257 18.4738 16.2151V7.36305C18.0786 -2.19537 4.45475 -2.20031 4.05957 7.36305V16.2151C4.06218 18.1257 4.82234 19.9574 6.17337 21.3084C7.5244 22.6594 9.35603 23.4196 11.2667 23.4222ZM6.03547 7.36305C6.32198 0.447398 16.2114 0.447398 16.4979 7.36305V16.2151C16.4979 17.6025 15.9467 18.9331 14.9657 19.9141C13.9846 20.8951 12.6541 21.4463 11.2667 21.4463C9.87927 21.4463 8.5487 20.8951 7.56765 19.9141C6.58661 18.9331 6.03547 17.6025 6.03547 16.2151V7.36305Z"/>
             </svg>
             <h2>بودكاست</h2>
-            <a 
-                href=""
-                onClick={() => {
-                    navigate("./" + wpId + "/" + media)
-                }}>بودكاست "أوزون" الحلقة السادسة والأخيرة - من مزيل العرق للإنترنت استعمالات يومية بتأثر عالمناخ</a>
+            <a onClick={() => setShowPopUp(true)}>بودكاست "أوزون" الحلقة السادسة والأخيرة - من مزيل العرق للإنترنت استعمالات يومية بتأثر عالمناخ</a>
             <span className='date'>01-03-2024</span>
         </div>
         {media === "audio" ? 

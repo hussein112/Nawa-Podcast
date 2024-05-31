@@ -4,7 +4,7 @@ import Podcast from '../Podcast/Podcast'
 import Skeleton from 'react-loading-skeleton'
 import "react-loading-skeleton/dist/skeleton.css";
 
-const Podcasts = () => {
+const Podcasts = ({query}) => {
   const [loading, setLoading] = useState(true);
   const posts = [
     'post1',
@@ -15,6 +15,11 @@ const Podcasts = () => {
     'post1',
   ]
   useEffect(() => {
+    if(query === "single"){ // Single podcast from each category
+      
+    }else{
+
+    }
     setTimeout(() => {
       setLoading(false);
     }, 1000)
