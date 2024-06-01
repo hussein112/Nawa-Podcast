@@ -1,7 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import ReactPlayer from 'react-player';
-import Skeleton from 'react-loading-skeleton';
-import "react-loading-skeleton/dist/skeleton.css";
 
 const Video = ({toggleContainer}) => {
   const [progress, setProgress] = useState(0);
@@ -67,9 +65,7 @@ const Video = ({toggleContainer}) => {
       <ReactPlayer
         ref={playerRef}
         url={require('../../assets/2.mp4')}
-        pip={true}
         stopOnUnmount={false}
-        fallback={<Skeleton />}
         playing={playing}
         onProgress={handleProgress}
         onDuration={(dur) => setDuration(dur)}
