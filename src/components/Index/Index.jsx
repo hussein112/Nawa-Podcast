@@ -8,7 +8,7 @@ import CommingSoon from '../CommingSoon'
 
 const Index = () => {
   return (
-    <CommingSoon />
+    <CommingSoon title="المؤشر قريباً" />
     // <div className='index'>
     //     <div className="container">
     //         <AboutParagraph />
