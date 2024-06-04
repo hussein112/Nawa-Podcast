@@ -7,22 +7,17 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
 
-const PodcastSingle = ({media}) => {
+const PodcastSingle = ({podcast, media, togglePlaying}) => {
     const [opacity, setOpacity] = useState(1);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const podcastType = 'كيانــا';
     const episode = 'الحلقة الاولى ';
 
 
-    const toggleContainer = () => {
-      setOpacity(opacity === 0 ? 1 : 0);
-    }
+  const toggleContainer = () => {
+    setOpacity(opacity === 0 ? 1 : 0);
+  }
 
-    useEffect(() => {
-        setTimeout(() => {
-            setLoading(false)
-        }, 2000)
-    }, [])
 
   return (
     <>
@@ -30,16 +25,16 @@ const PodcastSingle = ({media}) => {
             <SkeletonLoader />
             : 
             <div className="podcast-single post-single post odd">
-                {media === 'audio' && <img src={require("../../assets/1.jpeg")} alt="" className='bg' />}
+                {media === 'audio' && <img src={podcast._embedded['wp:featuredmedia']['0'].source_url} alt="" className='bg' />}
                 <div className="container" style={{opacity: opacity}}>
                     <h2>بودكاست {podcastType}</h2>
-                    <a>بودكاست "أوزون" الحلقة السادسة والأخيرة - من مزيل العرق للإنترنت استعمالات يومية بتأثر عالمناخ</a>
+                    <a dangerouslySetInnerHTML={{__html: podcast.title.rendered}}>{}</a>
                     <span className='date'>{episode}</span>
                 </div>
                 {media === 'audio' ? 
-                    <Audio url="audio.mp3" container={toggleContainer} color="#D77E78" subtitlesOpacity={opacity} isSingle={true} />
+                    <Audio togglePlaying={togglePlaying} url="audio.mp3" container={toggleContainer} color="#D77E78" subtitlesOpacity={opacity} isSingle={true} />
                 :
-                    <Video toggleContainer={toggleContainer} />
+                    <Video togglePlaying={togglePlaying} toggleContainer={toggleContainer} />
                 }
             </div>
         }

@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Channels from '../Channels/Channels'
 import "./Kayan.css"
 import Podcasts from "../Podcasts/Podcasts"
 
 const Kayan = () => {
+  useEffect(() => {
+    
+  });
   return (
     <>
       <div className='container'>
@@ -16,7 +19,7 @@ const Kayan = () => {
         </div>
         <Channels position="minor"/>
       </div>
-      <Podcasts />
+      <Podcasts query='kayan' />
     </>
   )
 }

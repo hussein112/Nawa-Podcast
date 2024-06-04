@@ -1,0 +1,165 @@
+.container{
+    text-align: right;
+}
+
+.paragraphs{
+    color: #016477;
+    font-family: "Rubik", sans-serif;
+    font-size: 32px;
+    font-weight: 900;
+}
+
+.paragraphs p{
+    position: relative;
+}
+
+.paragraphs p::after{
+    content: "";
+    position: absolute;
+    width: 75%;
+    height: 45px;
+    background-color: #FCDAD7;
+    z-index: -1;
+    top: 0;
+    right: 0;
+}
+
+.waves{
+    background-image: url('../../assets/waves.png');
+    width: 100%;
+    height: 50px;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.heading{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.sub-title{
+    color: #016477;
+    font-family: "Rubik", sans-serif;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    height: fit-content;
+}
+
+.sub-title span{
+    position: relative;
+    font-size: 32px;
+}
+
+
+.sub-title span::after{
+    content: "";
+    position: absolute;
+    width: 102%;
+    height: 36px;
+    background-color: #FCDAD7;
+    z-index: -1;
+    right: 0;
+}
+
+.heading p{
+    font-family: "Rubik", sans-serif;
+    color: #016677;
+    font-weight: 400;
+    font-size: 23px;
+    line-height: 119.4%;
+    width: 75%;
+}
+
+
+.process{
+    display: flex;
+    align-items: stretch;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.process .step{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+    margin: 0 50px;
+}
+
+.process .step h2{
+    font-family: "Rubik", sans-serif;
+    color: #D77E78;
+}
+
+
+.maps{
+    background-image: linear-gradient(to left, #5394A1, #3F7F89, #25717E, #056170);
+    height: 368px;
+}
+
+.maps .container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.map{
+    height: 80%;
+    cursor: pointer;
+}
+
+.map:focus > svg,
+.map:focus > svg *{
+    fill: #FCDAD7;
+}
+
+.yemen{
+    margin-top: 50px;
+}
+
+.map svg{
+    shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd
+}
+
+.cs{
+    position: relative;
+    text-align: center;
+}
+
+@media (max-width: 768px){
+    .cs img{
+        width: 100%;
+    }
+}
+
+
+.cs-overlay{
+    position: absolute;
+    background: #056170d6;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity .5s;
+}
+
+.cs-overlay p{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    color: white;
+    font-family: "Rubik", sans-serif;
+    font-size: 40px;
+}
+
+
+.cs:hover > .cs-overlay{
+    opacity: 1;
+}

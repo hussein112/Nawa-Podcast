@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useWavesurfer } from '@wavesurfer/react';
 
-const Audio = ({ url, container, color, subtitlesOpacity, isSingle }) => {
+const Audio = ({  togglePlaying, url, container, color, subtitlesOpacity, isSingle }) => {
   const containerRef = useRef();
   const [subtitles, setSubtitles] = useState([]);
   const [currentSubtitle, setCurrentSubtitle] = useState('');
@@ -75,6 +75,9 @@ const Audio = ({ url, container, color, subtitlesOpacity, isSingle }) => {
   };
 
   const onPlayPause = () => {
+    if(!isPlaying){
+      togglePlaying();
+    }
     if (wavesurfer) {
       wavesurfer.playPause();
       container();

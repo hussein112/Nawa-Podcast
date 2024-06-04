@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import ReactPlayer from 'react-player';
 
-const Video = ({toggleContainer}) => {
+const Video = ({toggleContainer, togglePlaying}) => {
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -9,11 +9,13 @@ const Video = ({toggleContainer}) => {
   const progressBarRef = useRef(null);
   const [hovering, setIsHovering] = useState(false);
   const [playing, setPlaying] = useState(false);
-
+  const [pause, setPause] = useState(true);
 
   const playVideo = () => {
+    if(!playing){ // Play right
+      togglePlaying();
+    }
     setPlaying(!playing);
-    toggleContainer();
   }
 
 
@@ -55,10 +57,14 @@ const Video = ({toggleContainer}) => {
 
   const handleEnded = () => {
     setPlaying(false);
+    setPause(true);
     toggleContainer();
   };
 
-
+  function changeIcons(){
+    setPause(!pause);
+    toggleContainer();
+  }
 
   return (
     <div className='video-player'>
@@ -71,6 +77,9 @@ const Video = ({toggleContainer}) => {
         onDuration={(dur) => setDuration(dur)}
         width='auto'
         height='auto'
+        onPlay={changeIcons}
+        onStart={changeIcons}
+        onPause={changeIcons}
         loop={false}
         onEnded={handleEnded}
         config={{ file: {
@@ -80,15 +89,15 @@ const Video = ({toggleContainer}) => {
         }}}
       />
       <div className="controls">
-        {playing ?
+        {!pause?
             <svg onClick={playVideo} className='play-pause' width="39" height="49" viewBox="0 0 37 47" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M15 47H0V0H15V47Z" fill="#D77E78"/>
                 <path d="M37 47H22V0H37V47Z" fill="#D77E78"/>
             </svg>
           :
-              <svg onClick={playVideo} className='play-pause' width="39" height="49" viewBox="0 0 39 49" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M0.947266 0.69873V48.1853L38.2581 24.442L0.947266 0.69873Z" fill="#D77E78"/>
-              </svg>
+            <svg onClick={playVideo} className='play-pause' width="39" height="49" viewBox="0 0 39 49" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M0.947266 0.69873V48.1853L38.2581 24.442L0.947266 0.69873Z" fill="#D77E78"/>
+            </svg>
         }
         <div
           ref={progressBarRef}

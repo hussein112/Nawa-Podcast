@@ -1,8 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./components/Home/Home";
-import Kayan from "./components/Kayan/Kayan";
-import PodcastSingle from "./components/PodcastSingle/PodcastSingle"
 import { PopupProvider } from "./context/PopUpContext";
+import Index from "./components/Index/Index";
 function App() {
   return (
     <BrowserRouter>
@@ -12,8 +11,7 @@ function App() {
             <Home />
           </PopupProvider>
         } />
-        <Route path="kayan" element={<Kayan />} />
-        <Route path="kayan/:id/:media" element={<PodcastSingle />} />
+        <Route path="index" element={<Index />} />
       </Routes>
     </BrowserRouter>
   );

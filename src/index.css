@@ -11,3 +11,19 @@ body{
 a{
   text-decoration: none;
 }
+
+.comming-soon{
+  width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: absolute;
+    background-color: #d78079;
+}
+
+.comming-soon p {
+  color: #016677;
+  font-size: 150px;
+}
