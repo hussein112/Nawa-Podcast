@@ -33,6 +33,7 @@
 .program{
     cursor: pointer;
     flex: 1;
+    text-align: center;
 }
 
 .program img{
@@ -56,3 +57,46 @@
 }
 
 
+
+
+
+
+
+
+
+
+
+/** These are found in style.css nawa theme do not copy them **/
+.podcasts-page form{
+    flex: 1;
+    margin: 20px 0;
+}
+
+.podcasts-page form input{
+    background: #ddddddb8;
+    border: 0;
+    outline: 0;
+    width: 59px;
+    padding: 10px;
+    transition: .5s;
+}
+
+.podcasts-page form input:focus{
+    width: 60%;
+}
+
+.no-results{
+    text-align: center;
+    color: #016677;
+    font-size: 50px;
+    font-family: "Rubi", sans-serif;
+}
+
+
+
+.no-results{
+    text-align: center;
+    color: #016677;
+    font-size: 50px;
+    font-family: "Rubi", sans-serif;
+}

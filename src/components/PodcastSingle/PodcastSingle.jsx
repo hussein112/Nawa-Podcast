@@ -18,6 +18,26 @@ const PodcastSingle = ({podcast, media, togglePlaying}) => {
     setOpacity(opacity === 0 ? 1 : 0);
   }
 
+  function getPodcastType(author){
+    switch(author){
+      case "بودكاست كيانا":
+        author = "كيانــا";
+        break;
+      case "بودكاست أوزون":
+        author = "";
+        break;
+      case "أوزون":
+        author = "";
+        break;
+      case "العنبر":
+        author = "";
+        break;
+      default:
+        
+      return author;
+    }
+  }
+
 
   return (
     <>
@@ -25,10 +45,10 @@ const PodcastSingle = ({podcast, media, togglePlaying}) => {
             <SkeletonLoader />
             : 
             <div className="podcast-single post-single post odd">
-                {media === 'audio' && <img src={podcast._embedded['wp:featuredmedia']['0'].source_url} alt="" className='bg' />}
+                {media === 'audio' && <img src={podcast.media} alt={podcast.title} className='bg' />}
                 <div className="container" style={{opacity: opacity}}>
-                    <h2>بودكاست {podcastType}</h2>
-                    <a dangerouslySetInnerHTML={{__html: podcast.title.rendered}}>{}</a>
+                    <h2>بودكاست {getPodcastType(podcast.author)}</h2>
+                    <a dangerouslySetInnerHTML={{__html: podcast.title}}>{}</a>
                     <span className='date'>{episode}</span>
                 </div>
                 {media === 'audio' ? 
