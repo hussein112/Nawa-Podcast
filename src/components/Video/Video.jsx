@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import ReactPlayer from 'react-player';
 
 const Video = ({toggleContainer, togglePlaying}) => {
@@ -10,6 +10,19 @@ const Video = ({toggleContainer, togglePlaying}) => {
   const [hovering, setIsHovering] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [pause, setPause] = useState(true);
+  const [url, setUrl] = useState('');
+
+  useEffect(() => {
+    async function getVideo(){
+      const video = await fetch("https://api.streamable.com/videos/5vgdtu");
+      const data = await video.json();
+      if(data){
+        setUrl(data.files.mp4.url)
+      }
+    }
+
+    getVideo();
+  })
 
   const playVideo = () => {
     if(!playing){ // Play right
@@ -66,11 +79,12 @@ const Video = ({toggleContainer, togglePlaying}) => {
     toggleContainer();
   }
 
+
   return (
     <div className='video-player'>
       <ReactPlayer
         ref={playerRef}
-        url={require('../../assets/2.mp4')}
+        url={url}
         stopOnUnmount={false}
         playing={playing}
         onProgress={handleProgress}
@@ -84,7 +98,7 @@ const Video = ({toggleContainer, togglePlaying}) => {
         onEnded={handleEnded}
         config={{ file: {
           tracks: [
-            {kind: 'captions', src: require("../../assets/2.vtt"), srcLang: 'ar', default: true},
+            {kind: 'captions', src: 'require("../../assets/2.vtt")', srcLang: 'ar', default: true},
           ]
         }}}
       />

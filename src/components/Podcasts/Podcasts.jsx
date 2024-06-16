@@ -1,8 +1,6 @@
 import React, {useState, useEffect, useCallback} from 'react'
 import "./Podcasts.css"
 import Podcast from '../Podcast/Podcast'
-import Skeleton from 'react-loading-skeleton'
-import "react-loading-skeleton/dist/skeleton.css";
 
 const Podcasts = ({query, togglePlaying}) => {
   const [loading, setLoading] = useState(true);
@@ -10,16 +8,15 @@ const Podcasts = ({query, togglePlaying}) => {
   const [_query, setQuery] = useState([]);
 
   useEffect(() => {
+    setLoading(true);
     if(query === "single"){ // Single podcast from each category
-      setLoading(false);
       async function fetchData(){
-        const response = await fetch("https://nawa.media/wp-json/wp/v2/cpt_newsroompost?categories=17&author=102&_embed");
+        const response = await fetch("https://nawa.media/wp-json/wp/v2/podcast-singles");
         const podcasts = await response.json();
         setPodcasts(podcasts);
         setLoading(false);
       }
       fetchData();
-
     }else if(query === "kayana"){
       async function fetchData(){
         const response = await fetch("https://nawa.media/wp-json/wp/v2/cpt_newsroompost?categories=17&author=102&_embed");
@@ -96,6 +93,7 @@ const Podcasts = ({query, togglePlaying}) => {
     return window.location.hash.substring(1)
   }
 
+
   const renderPodcastPairs = () => {
     let counter = 0;
     const podcastPairs = [];
@@ -105,8 +103,8 @@ const Podcasts = ({query, togglePlaying}) => {
     for (let i = 0; i < podcasts.length; i += 2) {
       podcastPairs.push(
         <React.Fragment key={i}>
-          <Podcast podcast={podcasts[i]} togglePlaying={togglePlaying} id={i % 4 === 0 ? 'even' : 'odd'} wpId={2}  media="video" />
-          {i + 1 < podcasts.length && <Podcast podcast={podcasts[i+1]} togglePlaying={togglePlaying} id={i % 4 === 0 ? 'odd' : 'even'} wpId={3} media="audio" />}
+          <Podcast podcast={podcasts[i]} togglePlaying={togglePlaying} id={i % 4 === 0 ? 'even' : 'odd'} />
+          {i + 1 < podcasts.length && <Podcast podcast={podcasts[i+1]} togglePlaying={togglePlaying} id={i % 4 === 0 ? 'odd' : 'even'} />}
         </React.Fragment>
       );
     }
@@ -133,7 +131,7 @@ const Podcasts = ({query, togglePlaying}) => {
           placeholder="إبحث..." />
       </form>
       <div className="podcasts-container">
-        {!loading ? renderPodcastPairs() : <Skeleton containerClassName='loading' count={2} height={550} />}
+        {!loading ? renderPodcastPairs() : <div id="loading-icon"></div>}
       </div>
     </div>
   )

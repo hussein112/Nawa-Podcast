@@ -1,15 +1,40 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import Audio from '../Audio/Audio';
 import Video from '../Video/Video';
 import { PopupContext } from '../../context/PopUpContext';
 
-const Podcast = ({ podcast, id, wpId, media, togglePlaying }) => {
+const Podcast = ({ podcast, id, togglePlaying }) => {
     const { setShowPopUp } = useContext(PopupContext);
     const [opacity, setOpacity] = useState(1);
+    const [media, setMedia] = useState('');
+    const [subtitles, setSubtitles] = useState();
+
     const toggleContainer = () => {
         setOpacity(opacity === 0 ? 1 : 0);
     }
+    useEffect(() => {
+        let url = '';
+        if(podcast.media[0].acf_fc_layout === 'podcast'){
+          url = podcast.media[0].media_file.url;
+        }
+        const audioExtensions = ['mp3', 'wav', 'ogg', 'm4a', 'aac'];
+        const videoExtensions = ['mp4', 'webm', 'ogv', 'mov', 'avi', 'mkv'];
+        const extension = url.split('.').pop().split(/\#|\?/)[0].toLowerCase();
+        if (audioExtensions.includes(extension)) {
+          setMedia('audio');
+        } else if (videoExtensions.includes(extension)) {
+          setMedia('video');
+        } else {
+          setMedia('unknown');
+        }
+
+        setMedia("video");
+
+        if(podcast.media[0].acf_fc_layout === 'podcast'){
+            setSubtitles(podcast.media[0].transcript.url);
+        }
+    })
   return (
     <div className={"post post-single " + id + (media === "video" ? " border" : "")}>
         {media === "audio" ? <img src={podcast.media} alt="a Post" className='bg' /> :
@@ -23,12 +48,12 @@ const Podcast = ({ podcast, id, wpId, media, togglePlaying }) => {
             <h2>بودكاست</h2>
             <a 
                 style={{cursor: 'pointer'}} 
-                onClick={() => setShowPopUp([true, podcast])} 
+                onClick={() => setShowPopUp(podcast)} 
                 dangerouslySetInnerHTML={{__html: podcast.title}}></a>
             <span className='date'>{podcast.date}</span>
         </div>
         {media === "audio" ? 
-            <Audio togglePlaying={togglePlaying} url="audio.mp3" container={toggleContainer} color={id === 'even' ? '#016677' : '#D78079'} subtitlesOpacity={opacity} isSingle={false} />
+            <Audio subtitlesFile={subtitles} togglePlaying={togglePlaying} url={podcast.audio} container={toggleContainer} color={id === 'even' ? '#016677' : '#D78079'} subtitlesOpacity={opacity} isSingle={false} />
         :
         <>
             <Video togglePlaying={togglePlaying} toggleContainer={toggleContainer} />

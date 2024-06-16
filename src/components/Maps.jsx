@@ -1,21 +1,123 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import Yemen from './Yemen'
 
-const Maps = ({setData}) => {
-  const renderData = () => {
-    const data = 'test';
-    setData(data);
-  }
+const Maps = ({setData, setLoading, setPassData}) => {
+    const [totalVerifiedMaterials, setTotalVerifiedMaterials] = useState();
+    const [sheet, setSheet] = useState();
+
+
+
+    const falseMaterialValues = ['اغلبه خاطئ', 'خاطئ ', 'مفبرك'];
+    const trueMaterialValues = ['صحيح', 'نص صحيح'];
+    let totalFalseMaterials = 0;
+
+
+
+    useEffect(() => {
+        fetchData();
+    }, [])
+
+    const fetchData = async () => {
+        const apiUrl = 'https://sheets.googleapis.com/v4/spreadsheets/1IbZ7Oo8BcFKanaqlk04_7XiHAgdIeopJtr_6xDIOH-E/values/Sheet1!A1:Z100?key=AIzaSyC_OkIOWwDLcmMcedAWGd-o55QT_LGv5no';
+        let total = 0;
+        try {
+            const response = await fetch(apiUrl);
+            const result = await response.json();
+            if (result && result.values) {
+                setSheet(result.values);
+                for (let i = 1; i < result.values.length; i++) {
+                    const row = result.values[i];
+                    if(row[6] !== undefined){
+                        total++;
+                    }
+                }
+                setTotalVerifiedMaterials(total);
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+
+    const getFalseMaterials = (type, country) => {
+        let total = 0;
+        for (let i = 1; i < sheet.length; i++) {
+            const row = sheet[i];
+            if(row[6] !== undefined && row[5] !== undefined && row[6].trim() === type && row[5].trim() === country){
+                total++;
+            }
+        }
+        return total;
+    }
+
+
+    const renderData = async (country) => {
+            setLoading(true);
+            setTimeout(() => {
+                setLoading(false);
+            }, 500)
+            // أغلبه خاطئ
+            const totalMostlyFalseMaterials = getFalseMaterials("اغلبه خاطئ", country);
+            const percentageOfTotalMostlyFalseMaterials = (totalMostlyFalseMaterials / totalVerifiedMaterials) * 100
+
+            //  خاطئ
+            const totalFalseMaterials = getFalseMaterials("خاطئ", country);
+            const percentageOfTotalFalseMaterials = (totalFalseMaterials / totalVerifiedMaterials) * 100
+
+
+            //  مفبرك
+            const totalMisleadingMaterials = getFalseMaterials("مفبرك", country);
+            const percentageOfTotalMisleadingMaterials = (totalMisleadingMaterials / totalVerifiedMaterials) * 100
+
+            //  صحيح 
+            const totalTrueMaterials = getFalseMaterials("صحيح", country);
+            const percentageOfTotalTrueMaterials = (totalTrueMaterials / totalVerifiedMaterials) * 100
+
+            //  نص صحيح
+            const totalHalfTrueMaterials = getFalseMaterials("نص صحيح", country);
+            const percentageOfTotalHalfTrueMaterials = (totalHalfTrueMaterials / totalVerifiedMaterials) * 100
+
+            const data = [
+                {
+                    'result': 'أغلبه خاطئ', 
+                    'subResult': percentageOfTotalMostlyFalseMaterials,
+                    'total': totalMostlyFalseMaterials
+                },
+                {
+                    'result': 'خاطئ', 
+                    'subResult': percentageOfTotalFalseMaterials,
+                    'total': totalFalseMaterials
+                },
+                {
+                    'result': 'مفبرك', 
+                    'subResult': percentageOfTotalMisleadingMaterials,
+                    'total': totalMisleadingMaterials
+                },
+                {
+                    'result': 'صحيح', 
+                    'subResult': percentageOfTotalTrueMaterials,
+                    'total': totalTrueMaterials
+                },
+                {
+                    'result': 'نص صحيح', 
+                    'subResult': percentageOfTotalHalfTrueMaterials,
+                    'total': totalHalfTrueMaterials
+                },
+            ]
+
+            setData(data);
+            setPassData(data);
+    }
     return (
     <div className='maps'>
         <div className="container">
-            <div className="map yemen" tabIndex={1} onClick={renderData}>
+            <div className="map yemen" tabIndex={1} onClick={() => renderData('Yemen')}>
                 <Yemen />
             </div>
             <div className="map egypt" tabIndex={2}>
                 
             </div>
-            <div className="map syria" tabIndex={3}>
+            <div className="map syria" tabIndex={3} onClick={() => renderData('syria')}>
                 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="237px" height="251px">
                     <g><path style={{opacity:0.989}} fill="#f4f4f4" d="M 236.5,43.5 C 236.5,49.8333 236.5,56.1667 236.5,62.5C 234.37,64.1271 232.37,65.9604 230.5,68C 225.5,69 220.5,70 215.5,71C 212.182,75.7432 210.516,81.0766 210.5,87C 211.276,89.9947 212.443,92.828 214,95.5C 215.324,101.343 214.324,106.676 211,111.5C 209.88,121.13 209.214,130.796 209,140.5C 205.775,145.119 202.941,149.952 200.5,155C 195.677,155.83 191.011,157.164 186.5,159C 143.394,184.452 100.561,210.285 58,236.5C 53.3535,235.977 48.5201,235.144 43.5,234C 40.4551,230.81 36.7885,228.643 32.5,227.5C 30.7119,222.935 27.3786,220.268 22.5,219.5C 20.8839,220.115 19.5505,221.115 18.5,222.5C 17.2801,222.113 16.6135,221.28 16.5,220C 16.1734,213.276 16.8401,206.61 18.5,200C 17.6919,199.692 17.0253,199.192 16.5,198.5C 21.9337,194.793 26.9337,190.626 31.5,186C 27.5109,184.951 26.6776,182.784 29,179.5C 31.5115,175.997 34.6782,174.331 38.5,174.5C 40.7989,169.701 44.2989,166.034 49,163.5C 50.1295,156.358 47.2962,151.691 40.5,149.5C 42.0148,148.409 42.8481,147.076 43,145.5C 38.5863,145.703 34.0863,145.37 29.5,144.5C 23.9013,137.246 23.2346,129.58 27.5,121.5C 26.7695,118.891 26.2695,116.224 26,113.5C 24.6932,112.228 23.1932,111.228 21.5,110.5C 21.0688,109.707 20.7355,108.873 20.5,108C 21.217,105.341 22.217,102.841 23.5,100.5C 23.3201,99.4461 22.9867,98.4461 22.5,97.5C 24.679,94.3817 27.679,92.7151 31.5,92.5C 31.5,93.5 31.5,94.5 31.5,95.5C 34.6483,93.1021 38.315,91.4355 42.5,90.5C 42.5,87.5 42.5,84.5 42.5,81.5C 45.4485,80.9874 48.2819,80.9874 51,81.5C 51.7504,80.8742 52.5838,80.3742 53.5,80C 50.8186,77.8187 49.1519,74.9853 48.5,71.5C 48.5288,69.9707 49.1955,68.804 50.5,68C 49.3187,63.5676 50.6521,60.0676 54.5,57.5C 57.6866,58.8655 61.0199,59.6988 64.5,60C 65.7717,61.3068 66.7717,62.8068 67.5,64.5C 70.7717,63.4255 74.2717,63.4255 78,64.5C 88.0357,61.6549 97.8691,58.3216 107.5,54.5C 114.028,54.5989 119.361,57.0989 123.5,62C 136.298,64.2026 148.964,63.536 161.5,60C 171.285,55.9411 180.952,51.6077 190.5,47C 193.036,46.6608 195.536,46.1608 198,45.5C 211.045,48.4606 223.879,47.7939 236.5,43.5 Z"/></g>
                 </svg>

@@ -3,10 +3,6 @@ import { useParams } from 'react-router-dom';
 import Audio from '../Audio/Audio';
 import Video from '../Video/Video';
 
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
-
-
 const PodcastSingle = ({podcast, media, togglePlaying}) => {
     const [opacity, setOpacity] = useState(1);
     const [loading, setLoading] = useState(false);
@@ -42,7 +38,7 @@ const PodcastSingle = ({podcast, media, togglePlaying}) => {
   return (
     <>
         {loading ?
-            <SkeletonLoader />
+            <div id='loading-icon'></div>
             : 
             <div className="podcast-single post-single post odd">
                 {media === 'audio' && <img src={podcast.media} alt={podcast.title} className='bg' />}
@@ -62,28 +58,5 @@ const PodcastSingle = ({podcast, media, togglePlaying}) => {
   )
 }
 
-
-const SkeletonLoader = () => {
-    return (
-      <div className="skeleton-container">
-        <div className="skeleton-map">
-          <Skeleton duration={2} enableAnimation={false} height='100%' />
-        </div>
-        <div className="skeleton-category">
-          <Skeleton duration={2} width={30}  baseColor='white'/>
-          <Skeleton duration={2} width={150} height={30}  baseColor='white'/>
-        </div>
-        <div className="skeleton-text">
-          <Skeleton duration={2} count={3} width={500} height={30} baseColor='white'/>
-        </div>
-        <div className="skeleton-date">
-          <Skeleton duration={2} width={100}  baseColor='white'/>
-        </div>
-        <div className="skeleton-audio">
-          <Skeleton duration={2} height={50} baseColor='white' />
-        </div>
-      </div>
-    );
-  };
 
 export default PodcastSingle

@@ -1,28 +1,27 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useWavesurfer } from '@wavesurfer/react';
 
-const Audio = ({  togglePlaying, url, container, color, subtitlesOpacity, isSingle }) => {
+const Audio = ({  togglePlaying, url, container, color, subtitlesFile, subtitlesOpacity, isSingle }) => {
   const containerRef = useRef();
   const [subtitles, setSubtitles] = useState([]);
   const [currentSubtitle, setCurrentSubtitle] = useState('');
-  const subtitleFile = require('../../assets/2.vtt'); // Update with the actual path to your subtitles file
 
   const { wavesurfer, isPlaying } = useWavesurfer({
     container: containerRef,
-    url: require("../../assets/" + url),
+    url: url,
     waveColor: color,
     height: 80,
   });
 
   useEffect(() => {
     const fetchSubtitles = async () => {
-      const response = await fetch(subtitleFile);
+      const response = await fetch(subtitlesFile);
       const data = await response.text();
       parseSubtitles(data);
     };
     
     fetchSubtitles();
-  }, [subtitleFile]);
+  }, [subtitlesFile]);
 
   useEffect(() => {
     if (wavesurfer) {
